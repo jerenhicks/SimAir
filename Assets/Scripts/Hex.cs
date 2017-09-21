@@ -16,6 +16,10 @@ public class Hex {
     bool allowWrapEastWest = true;
     bool allowWrapNorthSouth = false;
 
+    //data for map generate and maybe in game effects
+    public float elevation;
+    public float moisture;
+
     public Hex(int q, int r) {
         this.Q = q;
         this.R = r;
@@ -80,5 +84,9 @@ public class Hex {
         }
 
         return position;
+    }
+
+    public static float getDistance(Hex a, Hex b) {
+        return Mathf.Max(Mathf.Abs(a.Q - b.Q), Mathf.Abs(a.R - b.R), Mathf.Abs(a.S - b.S));
     }
 }
