@@ -51,11 +51,22 @@
      <Compile Include="Assets\Scripts\HexComponent.cs" />
      <Compile Include="Assets\Scripts\HexMap.cs" />
      <Compile Include="Assets\Scripts\HexMap_Continent.cs" />
+     <Compile Include="Assets\Scripts\controllers\KeyboardController.cs" />
+     <Compile Include="Assets\Scripts\controllers\PlayerController.cs" />
      <Compile Include="Assets\Scripts\controllers\TimeController.cs" />
      <Compile Include="Assets\Scripts\ui\handler\FastButtonHandler.cs" />
      <Compile Include="Assets\Scripts\ui\handler\PauseButtonHandler.cs" />
      <Compile Include="Assets\Scripts\ui\handler\PlayButtonHandler.cs" />
      <Compile Include="Assets\Scripts\ui\handler\VeryFastButtonHandler.cs" />
+     <Compile Include="Assets\Scripts\ui\handler\game\ControlPanelCanvasHandler.cs" />
+     <Compile Include="Assets\Scripts\ui\handler\game\ExitGameButtonHandler.cs" />
+     <Compile Include="Assets\Scripts\ui\handler\game\ExitMainMenuButtonHandler.cs" />
+     <Compile Include="Assets\Scripts\ui\handler\mainmenu\ExitButtonHandler.cs" />
+     <Compile Include="Assets\Scripts\ui\handler\mainmenu\LoadGameButtonHandler.cs" />
+     <Compile Include="Assets\Scripts\ui\handler\mainmenu\NewGameButtonHandler.cs" />
+     <Compile Include="Assets\Scripts\ui\handler\mainmenu\SettingsButtonHandler.cs" />
+     <Compile Include="Assets\Scripts\ui\updater\AirlineNameTextUpdater.cs" />
+     <Compile Include="Assets\Scripts\ui\updater\CashTextUpdater.cs" />
      <Compile Include="Assets\Scripts\ui\updater\TimeDisplayTextUpdater.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
