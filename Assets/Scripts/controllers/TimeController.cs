@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class TimeController : MonoBehaviour {
@@ -13,9 +14,12 @@ public class TimeController : MonoBehaviour {
     private static float veryFastSpeed = 0.25f;
     private float currentSpeed = normalSpeed;
     private bool playing = false;
+    private List<TimeEventListener> listeners = null;
+    public event EventHandler handler; 
 
     // Use this for initialization
     void Start() {
+        listeners = new List<TimeEventListener>();
         Debug.Log("hi there, timecontroller start");
     }
 
@@ -30,7 +34,8 @@ public class TimeController : MonoBehaviour {
         if (this.playing) {
             if (Time.time - lastChange > currentSpeed) {
                 Debug.Log("updating time");
-                addTime();
+                this.addTime();
+                this.notifyListeners();
                 lastChange = Time.time;
             }
         }
@@ -86,5 +91,15 @@ public class TimeController : MonoBehaviour {
             hour = 0;
         }
         Debug.Log(getTime());
+    }
+
+    public void addListener(TimeEventListener listener) {
+        this.listeners.Add(listener);
+    }
+
+    private void notifyListeners() {
+        if (handler != null) {
+            handler(this, null);
+        }
     }
 }
