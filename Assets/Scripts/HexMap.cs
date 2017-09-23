@@ -21,8 +21,8 @@ public class HexMap : MonoBehaviour {
 
     private Hex[,] hexes;
     private Dictionary<Hex, GameObject> hexToGameObjectMap;
-    bool allowWrapEastWest = true;
-    bool allowWrapNorthSouth = false;
+    public bool allowWrapEastWest = true;
+    public bool allowWrapNorthSouth = false;
 
     public float heightMountain = 1f;
     public float heightHill = 0.6f;
@@ -66,7 +66,7 @@ public class HexMap : MonoBehaviour {
 
         for (int column = 0; column < numCols; column++) {
             for (int row = 0; row < numRows; row++) {
-                Hex h = new Hex(column, row);
+                Hex h = new Hex(this, column, row);
                 h.elevation = -0.5f;
                 hexes[column, row] = h;
 
@@ -91,20 +91,24 @@ public class HexMap : MonoBehaviour {
                 GameObject hexGo = hexToGameObjectMap[h];
 
                 MeshRenderer mr = hexGo.GetComponentInChildren<MeshRenderer>();
+                MeshFilter mf = hexGo.GetComponentInChildren<MeshFilter>();
                 if (h.elevation >= heightMountain) {
                     mr.material = MatMountains;
+                    mf.mesh = MeshMountain;
                 } else if (h.elevation >= heightHill) {
                     mr.material = MatGrassLands;
+                    mf.mesh = MeshHill;
                 }
                 else if (h.elevation >= heightFlat) {
                     mr.material = MatPlains;
+                    mf.mesh = MeshFlat;
                 }
                 else {
                     mr.material = MatOcean;
+                    mf.mesh = MeshWater;
                 }
 
-                MeshFilter mf = hexGo.GetComponentInChildren<MeshFilter>();
-                mf.mesh = MeshWater;
+
             }
         }
     }

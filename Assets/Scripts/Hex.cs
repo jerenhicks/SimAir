@@ -12,15 +12,16 @@ public class Hex {
     public readonly int R;
     public readonly int S;
     static readonly float WIDTH_MULTIPLIER = Mathf.Sqrt(3) / 2;
-    float radius = .5f;
-    bool allowWrapEastWest = true;
-    bool allowWrapNorthSouth = false;
+    float radius = 1f;
 
     //data for map generate and maybe in game effects
     public float elevation;
     public float moisture;
 
-    public Hex(int q, int r) {
+    private HexMap hexMap;
+
+    public Hex(HexMap hexMap, int q, int r) {
+        this.hexMap = hexMap;
         this.Q = q;
         this.R = r;
         this.S = -(q + r);
@@ -52,7 +53,7 @@ public class Hex {
 
         Vector3 position = getPosition();
 
-        if (allowWrapEastWest) {
+        if (hexMap.allowWrapEastWest) {
 
             float howManyWidthsFromCamera = (position.x - cameraPosition.x) / mapWidth;
 
@@ -68,7 +69,7 @@ public class Hex {
             position.x -= howManyWidthToFix * mapWidth;
         } 
 
-        if (allowWrapNorthSouth) {
+        if (hexMap.allowWrapNorthSouth) {
             float howManyHeightsFromCamera = (position.z - cameraPosition.z) / mapHeight;
 
             if (howManyHeightsFromCamera > 0) {
@@ -87,6 +88,30 @@ public class Hex {
     }
 
     public static float getDistance(Hex a, Hex b) {
-        return Mathf.Max(Mathf.Abs(a.Q - b.Q), Mathf.Abs(a.R - b.R), Mathf.Abs(a.S - b.S));
+
+        int dQ = Mathf.Abs(a.Q - b.Q);
+        if (a.hexMap.allowWrapEastWest) {
+            if (dQ > a.hexMap.numCols / 2) {
+                dQ = a.hexMap.numCols - dQ;
+            }
+        }
+
+        int dR = Mathf.Abs(a.R - b.R);
+        if (a.hexMap.allowWrapNorthSouth) {
+            if (dR > a.hexMap.numRows / 2) {
+                dR = a.hexMap.numRows - dR;
+            }
+        }
+
+        return Mathf.Max(dQ, dR, Mathf.Abs(a.S - b.S));
+    }
+
+    public static float getDistanceWrapEastWest(Hex a, Hex b, int numColumns) {
+        int dQ = Mathf.Abs(a.Q - b.Q);
+        if (dQ > numColumns / 2) {
+            dQ = numColumns - dQ;
+        }
+
+        return Mathf.Max(dQ, Mathf.Abs(a.R - b.R), Mathf.Abs(a.S - b.S));
     }
 }
