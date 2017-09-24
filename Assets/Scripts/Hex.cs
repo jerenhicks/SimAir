@@ -28,7 +28,14 @@ public class Hex {
     }
 
     public Vector3 getPosition() {
-        return new Vector3(getHexHorizontalSpacing() * (this.Q + this.R / 2f), 0, getHexVerticalSpacing() * this.R);
+        float xValue = Q * 1.73f;
+        float zValue = R * 1.5f;
+
+        if (R % 2 == 1) {
+            xValue += .865f;
+        }
+
+        return new Vector3(xValue, 0, zValue);
     }
 
     public float getHexHeight() {
@@ -40,7 +47,7 @@ public class Hex {
     }
 
     public float getHexVerticalSpacing() {
-        return getHexHeight() * .75f;
+        return getHexHeight();
     }
 
     public float getHexHorizontalSpacing() {

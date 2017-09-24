@@ -7,6 +7,6 @@ public class HexComponent : MonoBehaviour {
     public HexMap hexMap;
 
     public void updatePosition() {
-        this.transform.position = hex.getPositionFromCamera(Camera.main.transform.position, hexMap.numRows, hexMap.numCols);
+        //this.transform.position = hex.getPositionFromCamera(Camera.main.transform.position, hexMap.numRows, hexMap.numCols);
     }
 }

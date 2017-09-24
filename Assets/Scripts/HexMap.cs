@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HexMap : MonoBehaviour {
 
+
+    public static HexMap instance = null;
     public readonly int numRows = 30;
     public readonly int numCols = 60;
 
@@ -28,10 +30,19 @@ public class HexMap : MonoBehaviour {
     public float heightHill = 0.6f;
     public float heightFlat = 0.0f;
 
+    public List<Hex> flatHexes = null;
+
     // Use this for initialization
     void Start () {
-        generateMap();
+        flatHexes = new List<Hex>();
+        //generateMap();
 	}
+
+    void Awake() {
+        if (instance == null) {
+            instance = this;
+        }
+    }
 
     public Hex getHexAt(int x, int y) {
         if (hexes == null) {
@@ -70,9 +81,8 @@ public class HexMap : MonoBehaviour {
                 h.elevation = -0.5f;
                 hexes[column, row] = h;
 
-                Vector3 pos = h.getPositionFromCamera(Camera.main.transform.position, numRows, numCols);
 
-                GameObject hexGo = (GameObject) Instantiate(HexPrefab, pos, Quaternion.identity, this.transform);
+                GameObject hexGo = (GameObject) Instantiate(HexPrefab, h.getPosition(), Quaternion.identity, this.transform);
                 hexToGameObjectMap.Add(h, hexGo);
 
                 hexGo.GetComponent<HexComponent>().hex = h;
@@ -81,6 +91,7 @@ public class HexMap : MonoBehaviour {
                 hexGo.GetComponentInChildren<TextMesh>().text = string.Format("{0},{1}", column, row);
             }
         }
+
         updateHexVisuals();
     }
 
@@ -113,6 +124,7 @@ public class HexMap : MonoBehaviour {
         }
     }
 
+    //FIXME: because of the switch to an offset grid, this method does not calculate things correctly
     public Hex[] getHexesWithinRangeOf(Hex centerHex, int range) {
         List<Hex> results = new List<Hex>();
         for (int dx = -range; dx < range - 1; dx++) {
@@ -121,5 +133,17 @@ public class HexMap : MonoBehaviour {
             }
         }
         return results.ToArray();
+    }
+
+    public void testMethodForFindingNeighbors(Hex centerHex, int range) {
+        List<Hex> results = new List<Hex>();
+        for (int r = 0; r < range; r++) {
+
+        }
+    }
+
+    public Hex getRandomValidHex() {
+        int i = Random.Range(0, flatHexes.Count);
+        return flatHexes[i];
     }
 }

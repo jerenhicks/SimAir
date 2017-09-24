@@ -31,6 +31,10 @@ public class HexMap_Continent : HexMap {
                 Hex h = getHexAt(column, row);
                 float n = Mathf.PerlinNoise(((float)column/ Mathf.Max(numCols, numRows) / noiseResolution) + noiseOffset.x, ((float) row/Mathf.Max(numCols, numRows) / noiseResolution) + noiseOffset.y) - 0.5f;
                 h.elevation += n * noiseScale;
+
+                if (h.elevation < HexMap.instance.heightHill && h.elevation >= HexMap.instance.heightFlat) {
+                    this.flatHexes.Add(h);
+                }
             }
         }
 
