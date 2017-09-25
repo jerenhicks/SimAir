@@ -19,6 +19,6 @@ public class TimeDisplayTextUpdater : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        myText.text = TimeController.instance.getTime();
+        myText.text = TimeController.instance.getTime().getDisplayString();
     }
 }

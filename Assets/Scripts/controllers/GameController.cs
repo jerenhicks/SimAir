@@ -9,15 +9,23 @@ public class GameController : MonoBehaviour {
     private List<Airport> airports = null;
     private TimeEventListener listener = null;
     public GameObject airportPrefab;
+    public GameObject airplanePrefab;
     private Dictionary<Airport, GameObject> airportToGameObjectMap;
-
+    private Dictionary<Airplane, GameObject> airplaneToGameObjectMap;
+    private int numAirports = 3;
+    private List<Schedule> schedules = null;
+    private List<Airplane> airplanes = null;
+    private Dictionary<Airplane, Schedule> openAir = null;
 
     // Use this for initialization
     void Start () {
         airports = new List<Airport>();
-        TimeController.instance.handler += test;
+        schedules = new List<Schedule>();
+        airplanes = new List<Airplane>();
+        openAir = new Dictionary<Airplane, Schedule>();
+        TimeController.instance.handler += handleTimeEvent;
+        airplaneToGameObjectMap = new Dictionary<Airplane, GameObject>();
         airportToGameObjectMap = new Dictionary<Airport, GameObject>();
-        //HexMap_Continent.instance.generateMap();
         this.setupNewGame();
     }
 
@@ -28,15 +36,14 @@ public class GameController : MonoBehaviour {
     }
 
     public void setupNewGame() {
-        Airport a1 = new Airport("G Municapal", 1);
-        airports.Add(a1);
-        Airport a2 = new Airport("D International", 3);
-        airports.Add(a2);
-        Airport a3 = new Airport("Z Regional", 2);
-        airports.Add(a3);
-
         HexMap_Continent.instance.generateMap();
         this.setupAirports();
+        //make a dummy airplane
+        Airplane airplane = new Airplane("AL130", "Beech", 10, 10, .5f);
+        airplanes.Add(airplane);
+        //make a dummy schedule
+        Schedule schedule = new Schedule(airports[0], airports[1], airplanes[0], new InGameTime(0, 5));
+        schedules.Add(schedule);
     }
 
     public void setupLoadGame() {
@@ -44,14 +51,44 @@ public class GameController : MonoBehaviour {
         this.setupNewGame();
     }
 
-    private void setupAirports() {
-        foreach (Airport airport in airports) {
-            Hex hex = HexMap_Continent.instance.getRandomValidHex();
-            GameObject airportGameObject = (GameObject)Instantiate(airportPrefab, hex.getPosition(), Quaternion.identity, this.transform);
-            airportToGameObjectMap.Add(airport, airportGameObject);
+    public void Update() {
+        if (TimeController.instance.isPlaying()) {
+            List<Airplane> toRemove = new List<Airplane>();
+            foreach (Airplane airplane in openAir.Keys) {
+                float speed = airplane.getSpeed();
+                float step = speed * Time.deltaTime / TimeController.instance.getCurrentSpeedValue();
+                airplaneToGameObjectMap[airplane].transform.position = Vector3.MoveTowards(airplaneToGameObjectMap[airplane].transform.position, openAir[airplane].getDestination().getPosition(), step);
+                airplaneToGameObjectMap[airplane].transform.LookAt(openAir[airplane].getDestination().getPosition());
+
+                if (airplaneToGameObjectMap[airplane].transform.position == openAir[airplane].getDestination().getPosition()) {
+                    toRemove.Add(airplane);
+                }
+            }
+            foreach (Airplane airplane in toRemove) {
+                Destroy(airplaneToGameObjectMap[airplane]);
+                airplaneToGameObjectMap.Remove(airplane);
+                //TODO: should add the airplane to the destination airport...
+                openAir.Remove(airplane);
+            }
         }
     }
-    private void test(object sender, EventArgs e) {
-        Debug.Log("Event handler hit in game controller");
+
+    private void setupAirports() {
+        for (int i = 0; i < numAirports; i++) {
+            Hex hex = HexMap_Continent.instance.getRandomValidHex();
+            Airport a1 = new Airport("G Municapal", 1, hex.getPosition());
+            airports.Add(a1);
+            GameObject airportGameObject = (GameObject)Instantiate(airportPrefab, hex.getPosition(), Quaternion.identity, this.transform);
+            airportToGameObjectMap.Add(a1, airportGameObject);
+        }
+    }
+    private void handleTimeEvent(object sender, EventArgs e) {
+        foreach (Schedule schedule in schedules) {
+            if (InGameTime.isTimesEqual(schedule.getDepartureTime(), TimeController.instance.getTime())) {
+                GameObject airplaneGameObject = (GameObject)Instantiate(airplanePrefab, schedule.getDeparture().getPosition(), Quaternion.identity, this.transform);
+                airplaneToGameObjectMap.Add(schedule.getAirplane(), airplaneGameObject);
+                openAir.Add(schedule.getAirplane(), schedule);
+            }
+        }
     }
 }

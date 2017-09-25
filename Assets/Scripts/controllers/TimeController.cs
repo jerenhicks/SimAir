@@ -6,8 +6,8 @@ using UnityEngine;
 public class TimeController : MonoBehaviour {
 
     public static TimeController instance = null;
-    private static int hour = 0;
-    private static int minute = 0;
+    private int hour = 0;
+    private int minute = 0;
     private float lastChange = 0f;
     private static float normalSpeed = 1.0f;
     private static float fastSpeed = 0.5f;
@@ -20,7 +20,6 @@ public class TimeController : MonoBehaviour {
     // Use this for initialization
     void Start() {
         listeners = new List<TimeEventListener>();
-        Debug.Log("hi there, timecontroller start");
     }
 
     void Awake() {
@@ -33,7 +32,6 @@ public class TimeController : MonoBehaviour {
     void Update() {
         if (this.playing) {
             if (Time.time - lastChange > currentSpeed) {
-                Debug.Log("updating time");
                 this.addTime();
                 this.notifyListeners();
                 lastChange = Time.time;
@@ -41,8 +39,9 @@ public class TimeController : MonoBehaviour {
         }
     }
 
-    public string getTime() {
-        return "" + hour + ":" + minute;
+    public InGameTime getTime() {
+        InGameTime time = new InGameTime(hour, minute);
+        return time;
     }
 
     public void pause() {
@@ -81,6 +80,10 @@ public class TimeController : MonoBehaviour {
         return this.currentSpeed == veryFastSpeed;
     }
 
+    public float getCurrentSpeedValue() {
+        return this.currentSpeed;
+    }
+
     private void addTime() {
         minute++;
         if (minute >= 60) {
@@ -90,7 +93,6 @@ public class TimeController : MonoBehaviour {
         if (hour >= 24) {
             hour = 0;
         }
-        Debug.Log(getTime());
     }
 
     public void addListener(TimeEventListener listener) {

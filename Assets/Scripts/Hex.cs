@@ -54,46 +54,47 @@ public class Hex {
         return getHexWidth();
     }
 
-    public Vector3 getPositionFromCamera(Vector3 cameraPosition, float numRows, float numColumns) {
-        float mapHeight = numRows * getHexVerticalSpacing();
-        float mapWidth = numColumns * getHexHorizontalSpacing();
+    //public Vector3 getPositionFromCamera(Vector3 cameraPosition, float numRows, float numColumns) {
+    //    float mapHeight = numRows * getHexVerticalSpacing();
+    //    float mapWidth = numColumns * getHexHorizontalSpacing();
 
-        Vector3 position = getPosition();
+    //    Vector3 position = getPosition();
 
-        if (hexMap.allowWrapEastWest) {
+    //    if (hexMap.allowWrapEastWest) {
 
-            float howManyWidthsFromCamera = (position.x - cameraPosition.x) / mapWidth;
+    //        float howManyWidthsFromCamera = (position.x - cameraPosition.x) / mapWidth;
 
-            if (howManyWidthsFromCamera > 0) {
-                howManyWidthsFromCamera += 0.5f;
-            }
-            else {
-                howManyWidthsFromCamera -= 0.5f;
-            }
+    //        if (howManyWidthsFromCamera > 0) {
+    //            howManyWidthsFromCamera += 0.5f;
+    //        }
+    //        else {
+    //            howManyWidthsFromCamera -= 0.5f;
+    //        }
 
-            int howManyWidthToFix = (int)howManyWidthsFromCamera;
+    //        int howManyWidthToFix = (int)howManyWidthsFromCamera;
 
-            position.x -= howManyWidthToFix * mapWidth;
-        } 
+    //        position.x -= howManyWidthToFix * mapWidth;
+    //    } 
 
-        if (hexMap.allowWrapNorthSouth) {
-            float howManyHeightsFromCamera = (position.z - cameraPosition.z) / mapHeight;
+    //    if (hexMap.allowWrapNorthSouth) {
+    //        float howManyHeightsFromCamera = (position.z - cameraPosition.z) / mapHeight;
 
-            if (howManyHeightsFromCamera > 0) {
-                howManyHeightsFromCamera += 0.5f;
-            }
-            else {
-                howManyHeightsFromCamera -= 0.5f;
-            }
+    //        if (howManyHeightsFromCamera > 0) {
+    //            howManyHeightsFromCamera += 0.5f;
+    //        }
+    //        else {
+    //            howManyHeightsFromCamera -= 0.5f;
+    //        }
 
-            int howManyHeightToFix = (int)howManyHeightsFromCamera;
+    //        int howManyHeightToFix = (int)howManyHeightsFromCamera;
 
-            position.z -= howManyHeightToFix * mapHeight;
-        }
+    //        position.z -= howManyHeightToFix * mapHeight;
+    //    }
 
-        return position;
-    }
+    //    return position;
+    //}
 
+        //FIXME: this class is probably not correct any longer. Redo this
     public static float getDistance(Hex a, Hex b) {
 
         int dQ = Mathf.Abs(a.Q - b.Q);
