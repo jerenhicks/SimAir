@@ -16,16 +16,24 @@ public class GameController : MonoBehaviour {
     private List<Schedule> schedules = null;
     private List<Airplane> airplanes = null;
     private Dictionary<Airplane, Schedule> openAir = null;
+    private List<AirplaneArchtype> archtypes = null;
+
+    //not sure if we want to store the raw player data here or encapsulate it into an object
+    private string airlineName;
+    private float playerMoney;
 
     // Use this for initialization
     void Start () {
+        //initialize variables
         airports = new List<Airport>();
         schedules = new List<Schedule>();
         airplanes = new List<Airplane>();
         openAir = new Dictionary<Airplane, Schedule>();
-        TimeController.instance.handler += handleTimeEvent;
         airplaneToGameObjectMap = new Dictionary<Airplane, GameObject>();
         airportToGameObjectMap = new Dictionary<Airport, GameObject>();
+        archtypes = new List<AirplaneArchtype>();
+
+        TimeController.instance.handler += handleTimeEvent;
         this.setupNewGame();
     }
 
@@ -38,6 +46,8 @@ public class GameController : MonoBehaviour {
     public void setupNewGame() {
         HexMap_Continent.instance.generateMap();
         this.setupAirports();
+        this.setupAirplaneArchtypes();
+        this.setupPlayer();
         //make a dummy airplane
         Airplane airplane = new Airplane("AL130", "Beech", 10, 10, .5f);
         airplanes.Add(airplane);
@@ -73,6 +83,16 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    private void setupAirplaneArchtypes() {
+        Debug.Log("Settuping up archtypes");
+        AirplaneArchtype type1 = new AirplaneArchtype("Penguin", 10, 3, 10000, 15);
+        AirplaneArchtype type2 = new AirplaneArchtype("Stork", 50, 3, 10000, 30);
+        AirplaneArchtype type3 = new AirplaneArchtype("Pelican", 100, 3, 10000, 100);
+        archtypes.Add(type1);
+        archtypes.Add(type2);
+        archtypes.Add(type3);
+    }
+
     private void setupAirports() {
         for (int i = 0; i < numAirports; i++) {
             Hex hex = HexMap_Continent.instance.getRandomValidHex();
@@ -90,5 +110,21 @@ public class GameController : MonoBehaviour {
                 openAir.Add(schedule.getAirplane(), schedule);
             }
         }
+    }
+    private void setupPlayer() {
+        this.airlineName = "Epsilon Airlines";
+        this.playerMoney = 5000;
+    }
+
+    public List<AirplaneArchtype> getAirplaneArchtypes() {
+        return this.archtypes;
+    }
+
+    public string getAirlineName() {
+        return this.airlineName;
+    }
+
+    public float getPlayerMoney() {
+        return this.playerMoney;
     }
 }

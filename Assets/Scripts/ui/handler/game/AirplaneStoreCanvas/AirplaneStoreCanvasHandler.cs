@@ -20,6 +20,8 @@ public class AirplaneStoreCanvasHandler : MonoBehaviour {
         canvasGroup.alpha = 1f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
+        AirplaneListPanelUpdater listUpdater = GameObject.Find("AirplaneListPanel").GetComponent<AirplaneListPanelUpdater>();
+        listUpdater.showData();
     }
 
     public void hidePanel() {
@@ -27,5 +29,7 @@ public class AirplaneStoreCanvasHandler : MonoBehaviour {
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
+        AirplaneListPanelUpdater listUpdater = GameObject.Find("AirplaneListPanel").GetComponent<AirplaneListPanelUpdater>();
+        listUpdater.destroyData();
     }
 }
