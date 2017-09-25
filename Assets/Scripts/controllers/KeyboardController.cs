@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class KeyboardController : MonoBehaviour {
 
@@ -48,21 +49,21 @@ public class KeyboardController : MonoBehaviour {
         }
 
         var d = Input.GetAxis("Mouse ScrollWheel");
-        if (d > 0f) {
+        if (d > 0f && !EventSystem.current.IsPointerOverGameObject()) {
             // scroll in
             if (cam.transform.position.y > minZoom) {
                 cam.transform.position -= new Vector3(0, zoomSpeed * Time.deltaTime, 0);
             }
-        } else if (d < 0f) {
+        } else if (d < 0f && !EventSystem.current.IsPointerOverGameObject()) {
             // scroll away
             if (cam.transform.position.y < maxZoom) {
                 cam.transform.position += new Vector3(0, zoomSpeed * Time.deltaTime, 0);
             }
         }
 
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
             lastPanPosition = Input.mousePosition;
-        } else if (Input.GetMouseButton(0)) {
+        } else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) {
             // Determine how much to move the camera
             Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - Input.mousePosition);
             Vector3 move = new Vector3(offset.x * PanSpeed, 0, offset.y * PanSpeed);
