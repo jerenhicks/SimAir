@@ -112,6 +112,7 @@ public class GameController : MonoBehaviour {
         foreach (Schedule schedule in schedules) {
             if (InGameTime.isTimesEqual(schedule.getDepartureTime(), TimeController.instance.getTime())) {
                 GameObject airplaneGameObject = (GameObject)Instantiate(airplanePrefab, schedule.getDeparture().getPosition(), Quaternion.identity, this.transform);
+                airplaneGameObject.GetComponent<SelectionHandler>().setPlane();
                 airplaneToGameObjectMap.Add(schedule.getAirplane(), airplaneGameObject);
                 openAir.Add(schedule.getAirplane(), schedule);
             }
