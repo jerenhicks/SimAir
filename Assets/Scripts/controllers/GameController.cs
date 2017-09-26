@@ -148,7 +148,7 @@ public class GameController : MonoBehaviour {
             return false;
         }
         Debug.Log("Buying a " + type.getModelName());
-        this.playerMoney += type.getCost();
+        this.playerMoney -= type.getCost();
         Airplane airplane = new Airplane("DL130", type);
         airplanes.Add(airplane);
 
