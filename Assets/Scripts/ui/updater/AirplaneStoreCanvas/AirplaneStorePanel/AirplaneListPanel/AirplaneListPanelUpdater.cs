@@ -24,9 +24,9 @@ public class AirplaneListPanelUpdater : MonoBehaviour {
             gameObjects.Add(airportGameObject);
             airportGameObject.GetComponent<IndividualPlanePanelUpdater>().setAirplaneArchtype(type);
             airportGameObject.transform.SetParent(this.transform);
-            RectTransform rectTransform = airportGameObject.GetComponent<RectTransform>();
-            rectTransform.anchoredPosition = new Vector2(0, spacing);
-            spacing -= 100;
+            //RectTransform rectTransform = airportGameObject.GetComponent<RectTransform>();
+            //rectTransform.anchoredPosition = new Vector2(0, spacing);
+            //spacing -= 100;
         }
     }
 

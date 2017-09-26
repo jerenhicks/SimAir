@@ -5,36 +5,34 @@ using UnityEngine;
 public class Airplane {
 
     private string name;
-    private string type;
-    private int maxSeats;
-    private int fuelSize;
-    private float speed;
+    private AirplaneArchtype type;
 
-    public Airplane(string name, string type, int maxSeats, int fuelSize, float speed) {
+    public Airplane(string name, AirplaneArchtype type) {
         this.name = name;
         this.type = type;
-        this.maxSeats = maxSeats;
-        this.fuelSize = fuelSize;
-        this.speed = speed;
     }
 
     public string getName() {
         return this.name;
     }
 
-    public string getType() {
+    public AirplaneArchtype getType() {
         return this.type;
     }
 
-    public int getMaxSeats() {
-        return this.maxSeats;
+    public string getModel() {
+        return this.type.getModelName();
     }
 
-    public int getFuelSize() {
-        return this.fuelSize;
+    public int getMaxSeats() {
+        return this.type.getMaxPassengers();
+    }
+
+    public float getFuelSize() {
+        return this.type.getFuelSize();
     }
 
     public float getSpeed() {
-        return this.speed;
+        return this.type.getFuelSize();
     }
 }

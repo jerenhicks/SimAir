@@ -41,5 +41,9 @@ public class IndividualPlanePanelUpdater : MonoBehaviour {
         child = transform.Find("CostText");
         t = child.GetComponent<Text>();
         t.text = "" + type.getCost();
+
+        child = transform.Find("PurchaseButton");
+        PurchaseButtonHandler handler = child.GetComponent<PurchaseButtonHandler>();
+        handler.setType(type);
     }
 }
