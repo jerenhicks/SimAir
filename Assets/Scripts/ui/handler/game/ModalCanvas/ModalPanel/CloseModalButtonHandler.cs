@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class AirplaneStoreButtonHandler : MonoBehaviour {
-
+public class CloseModalButtonHandler : MonoBehaviour {
+    public GameObject canvas;
     Button myButton;
 
     void Awake() {
@@ -14,7 +14,7 @@ public class AirplaneStoreButtonHandler : MonoBehaviour {
     }
 
     public void onClick() {
-        ModalCanvasHandler handler = GameObject.Find("AirplaneStoreCanvas").GetComponent<ModalCanvasHandler>();
-        handler.showPanel();
+        ModalCanvasHandler handler = canvas.GetComponent<ModalCanvasHandler>();
+        handler.hidePanel();
     }
 }

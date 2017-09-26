@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AirplaneListPanelUpdater : ModalDisplayPanelUpdater {
+public class ScheduleManagerDisplayPanelUpdater : ModalDisplayPanelUpdater {
 
     private List<GameObject> gameObjects;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         gameObjects = new List<GameObject>();
-	}
-	
+    }
+
     public override void showData() {
-        Debug.Log("Showing data now");
         foreach (AirplaneArchtype type in GameController.instance.getAirplaneArchtypes()) {
             GameObject airportGameObject = (GameObject)Instantiate(this.individualPrefab, this.transform.position, Quaternion.identity, this.transform);
             gameObjects.Add(airportGameObject);

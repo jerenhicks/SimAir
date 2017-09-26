@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScheduleManagerButtonHandler : MonoBehaviour {
+    Button myButton;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Awake() {
+        myButton = GetComponent<Button>(); // <-- you get access to the button component here
+
+        myButton.onClick.AddListener(() => { onClick(); });
+    }
+
+    public void onClick() {
+        ModalCanvasHandler handler = GameObject.Find("ScheduleManagerCanvas").GetComponent<ModalCanvasHandler>();
+        handler.showPanel();
+    }
 }
