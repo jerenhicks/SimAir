@@ -12,11 +12,11 @@ public class ScheduleManagerDisplayPanelUpdater : ModalDisplayPanelUpdater {
     }
 
     public override void showData() {
-        foreach (AirplaneArchtype type in GameController.instance.getAirplaneArchtypes()) {
-            GameObject airportGameObject = (GameObject)Instantiate(this.individualPrefab, this.transform.position, Quaternion.identity, this.transform);
-            gameObjects.Add(airportGameObject);
-            airportGameObject.GetComponent<IndividualPlanePanelUpdater>().setAirplaneArchtype(type);
-            airportGameObject.transform.SetParent(this.transform);
+        foreach (Schedule schedule in GameController.instance.getSchedules()) {
+            GameObject scheduleGameObject = (GameObject)Instantiate(this.individualPrefab, this.transform.position, Quaternion.identity, this.transform);
+            gameObjects.Add(scheduleGameObject);
+            //airportGameObject.GetComponent<IndividualPlanePanelUpdater>().setAirplaneArchtype(type);
+            scheduleGameObject.transform.SetParent(this.transform);
         }
     }
 

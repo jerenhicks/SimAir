@@ -154,4 +154,8 @@ public class GameController : MonoBehaviour {
 
         return true;
     }
+
+    public List<Schedule> getSchedules() {
+        return this.schedules;
+    }
 }
